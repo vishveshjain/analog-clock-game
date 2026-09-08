@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Tick-Tock Hero - Learn Analog Clock | YouTube Playable</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app-container">
+    <!-- Top Bar / Header -->
+    <header>
+      <div class="stats-bar">
+        <div class="stat-badge score-badge" title="Your Score">
+          <span class="icon">⭐</span>
+          <span id="score-value">0</span>
+        </div>
+        <div class="stat-badge streak-badge" title="Consecutive Correct Answers">
+          <span class="icon">🔥</span>
+          <span id="streak-value">0</span>
+        </div>
+      </div>
+
+      <div class="top-controls">
+        <button id="btn-sound-toggle" class="btn-icon" aria-label="Toggle Sound" title="Sound Mute/Unmute">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Area -->
+    <main>
+      <!-- Task Panel with Target Time -->
+      <section class="task-card">
+        <div class="task-title">Set the Clock to:</div>
+        <div class="target-digital-display">
+          <span id="target-digital-time">3:40</span>
+        </div>
+
+        <button id="btn-speaker" class="speaker-btn" title="Read time aloud">
+          <span>🔊</span> Listen
+        </button>
+
+        <div class="hand-legend">
+          <div class="legend-item hour-legend">
+            <span class="legend-dot"></span>
+            <span>Small = Hour</span>
+          </div>
+          <div class="legend-item minute-legend">
+            <span class="legend-dot"></span>
+            <span>Large = Minute</span>
+          </div>
+        </div>
+
+        <!-- Quick Hand Selector for touch or tap-to-set -->
+        <div class="hand-selector-pills" style="margin-top: 14px;">
+          <button id="pill-hour" class="pill-btn">🔵 Small Hand</button>
+          <button id="pill-minute" class="pill-btn active-minute">🟠 Large Hand</button>
+        </div>
+
+        <!-- Live readout of current positions -->
+        <div id="current-hands-readout" class="current-hands-readout"></div>
+      </section>
+
+      <!-- Analog Clock Display -->
+      <section class="clock-container">
+        <svg id="analog-clock-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Definitions for gradients/drop-shadows -->
+          <defs>
+            <radialGradient id="clock-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="95%" stop-color="#f8fafc" />
+              <stop offset="100%" stop-color="#e2e8f0" />
+            </radialGradient>
+            <linearGradient id="hour-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#1d4ed8" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <linearGradient id="minute-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#c2410c" />
+              <stop offset="100%" stop-color="#f97316" />
+            </linearGradient>
+          </defs>
+
+          <!-- Outer Decorative Rim -->
+          <circle cx="200" cy="200" r="190" class="clock-rim-outer" />
+          <circle cx="200" cy="200" r="182" class="clock-rim" fill="url(#clock-grad)" />
+
+          <!-- Inner Subtle Ring -->
+          <circle cx="200" cy="200" r="140" fill="none" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="4 4" />
+
+          <!-- Minute & Hour Ticks Group -->
+          <g id="clock-ticks-group"></g>
+
+          <!-- Numbers & Minute Hints Group -->
+          <g id="clock-numbers-group"></g>
+
+          <!-- Hour Hand (Small Tick) Group -->
+          <g id="hour-hand-group" class="hand-group" transform="rotate(0 200 200)">
+            <!-- Main short bar -->
+            <line x1="200" y1="215" x2="200" y2="105" class="hour-hand" stroke="url(#hour-grad)" />
+            <!-- Draggable handle icon at the tip -->
+            <circle id="hour-handle" cx="200" cy="105" r="16" class="hour-handle" />
+            <!-- Hour Hand Arrowhead / Indicator -->
+            <polygon points="200,82 192,105 208,105" fill="#1d4ed8" />
+            <text x="200" y="106" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" dominant-baseline="central">H</text>
+          </g>
+
+          <!-- Minute Hand (Large Tick) Group -->
+          <g id="minute-hand-group" class="hand-group" transform="rotate(0 200 200)">
+            <!-- Main long bar -->
+            <line x1="200" y1="225" x2="200" y2="55" class="minute-hand" stroke="url(#minute-grad)" />
+            <!-- Draggable handle icon at the tip -->
+            <circle id="minute-handle" cx="200" cy="55" r="15" class="minute-handle" />
+            <!-- Minute Hand Arrowhead / Indicator -->
+            <polygon points="200,34 193,55 207,55" fill="#c2410c" />
+            <text x="200" y="56" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" dominant-baseline="central">M</text>
+          </g>
+
+          <!-- Center Pivot Medallion -->
+          <circle cx="200" cy="200" r="15" class="clock-center-hub" />
+          <circle cx="200" cy="200" r="6" class="clock-center-dot" />
+        </svg>
+      </section>
+    </main>
+
+    <!-- Feedback / Guidance Box -->
+    <div id="feedback-box" class="feedback-box"></div>
+
+    <!-- Bottom Controls & Difficulty Level Selection -->
+    <footer>
+      <div class="action-row">
+        <button id="btn-hint" class="btn-hint">
+          <span>💡</span> Hint
+        </button>
+        <button id="btn-check" class="btn-primary">
+          <span>✨</span> CHECK TIME!
+        </button>
+      </div>
+
+      <div class="level-tabs">
+        <button class="level-btn" data-level="easy">Hours (1-12)</button>
+        <button class="level-btn" data-level="medium">Half / Quarters</button>
+        <button class="level-btn active" data-level="challenging">5-Minute Steps</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Celebration Modal Pop-up -->
+  <div id="celebration-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-icon">🎉 🌟 ⏰</div>
+      <h2 class="modal-title">CONGRATULATIONS!</h2>
+      <p class="modal-subtitle">Super Job! You set the clock to <strong id="modal-time-display">3:40</strong> correctly!</p>
+      <div class="modal-score-earned">
+        <span>⭐ +10 Points!</span>
+      </div>
+      <button id="btn-next-time" class="modal-btn">
+        Next Time ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Game Scripts -->
+  <script src="yt-playable-sdk.js"></script>
+  <script src="audio.js"></script>
+  <script src="confetti.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
