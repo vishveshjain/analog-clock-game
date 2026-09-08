@@ -1,5 +1,6 @@
 # ⏰ Tick-Tock Hero: Analog Clock Learning Game
 
+[![Live Demo](https://img.shields.io/badge/Demo-Play%20Now%20Online-success?logo=googlechrome)](https://vishveshjain.github.io/analog-clock-game/)
 [![YouTube Playable](https://img.shields.io/badge/YouTube-Playable%20Ready-red?logo=youtube)](https://support.google.com/youtube/answer/13837968)
 [![HTML5](https://img.shields.io/badge/HTML5-Pure%20Vanilla-orange?logo=html5)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![Web Audio API](https://img.shields.io/badge/Audio-Web%20Audio%20API-blue)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
@@ -7,6 +8,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An interactive, kid-friendly educational web game designed for **YouTube Playables** to help children learn how to read and set an analog clock.
+
+👉 **[Play the Live Game Online Here](https://vishveshjain.github.io/analog-clock-game/)**
 
 ---
 
